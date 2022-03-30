@@ -3,31 +3,52 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 
-class Square extends React.Component {
-    
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: null,
-        }
-    
-    }
+// class Square extends React.Component {
+//     render() {
+//       return (
+//         <button 
+//             className="square" 
+//             onClick={() => this.props.handleClick()}
+//         >    
+//           {this.props.value}
+//         </button>
+//       );
+//     }
+//   }
 
-    render() {
-      return (
-        <button 
-            className="square" 
-            onClick={() => this.setState({value: 'X'})}>
-                
-          {this.state.value}
-        </button>
+//substituindo o class componente Square por uma função.
+  function Square(props) {
+      return(
+          <button className="square" onClick={props.handleClick}>
+                {props.value}
+          </button>
       );
-    }
   }
   
   class Board extends React.Component {
+      //.fill(valor) para preencher o array com o valor passado
+    constructor(props) {
+        super(props);
+        this.state = {
+            squares: Array(9).fill(null), 
+        };
+        console.log(this.state.squares);
+    }
+
+    //.slice() - retorna uma parte de um array existente
+    handleClick(i) {
+        const squares = this.state.squares.slice();
+        squares[i] = 'X';
+        this.setState({squares: squares});
+    }
+
     renderSquare(i) {
-      return <Square value={i}/>;
+      return(
+        <Square 
+            value={this.state.squares[i]}
+            handleClick={() => this.handleClick(i)}
+        />
+      ) 
     }
   
     render() {
